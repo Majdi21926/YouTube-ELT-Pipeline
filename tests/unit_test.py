@@ -1,4 +1,4 @@
-
+import os
 
 # test_api_key
 def test_api_key(api_key):
@@ -48,8 +48,8 @@ def test_dagbag(dagbag):
     print("====================================")
     # 4.
     expected_tasks_count = {
-        "produce_json": 4,
-        "etl_warehouse": 2,
+        "produce_json": 5,
+        "etl_warehouse": 3,
         "data_quality": 2
     }
     for dag_id, dag in dagbag.dags.items():

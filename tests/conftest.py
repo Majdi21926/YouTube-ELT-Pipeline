@@ -2,6 +2,7 @@ import os
 from unittest import mock
 from airflow.models import Variable, Connection, DagBag
 import pytest
+import psycopg2
 
 @pytest.fixture
 def api_key():
@@ -33,3 +34,40 @@ def mock_postgres_conn_vars():
 @pytest.fixture
 def dagbag():
     yield DagBag()
+
+
+# function will return the value of the varialbles from the environment by specific the variable name as an argument
+@pytest.fixture
+def airflow_variable():
+    def get_airflow_variable(variable_name):
+        env_var = f"AIRFLOW_VAR_{variable_name.upper()}"
+        return os.getenv(env_var)
+    
+    return get_airflow_variable
+
+# test the connection to the database that will store the ELT data with the real variables from the environment
+@pytest.fixture
+def real_postgres_conn_vars():
+    dbname = os.getenv("ELT_DATABASE_NAME")
+    user = os.getenv("ELT_DATABASE_USERNAME")
+    password = os.getenv("ELT_DATABASE_PASSWORD")
+    host = os.getenv("POSTGRES_CONN_HOST")
+    port = os.getenv("POSTGRES_CONN_PORT")
+
+    conn = None
+
+    try:
+        conn = psycopg2.connect(
+            dbname=dbname,
+            user=user,
+            password=password,
+            host=host,
+            port=port
+        )
+        yield conn
+
+    except psycopg2.Error as e:
+        print(f"Error connecting to the database: {e}")
+    finally:
+        if conn is not None:
+            conn.close()
