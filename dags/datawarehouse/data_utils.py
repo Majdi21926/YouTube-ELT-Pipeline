@@ -1,5 +1,5 @@
 from airflow.providers.postgres.hooks.postgres import PostgresHook
-from pyscopg2.extras import RealDictCursor
+from psycopg2.extras import RealDictCursor
 
 table = "yt_api"
 
@@ -55,7 +55,7 @@ def create_table(schema):
     conn.commit()
     close_conn_cursor(conn, cur)
 
-# get video ids
+# get video ids already in the table
 def get_video_ids(cur, schema):
     video_ids_sql = f"SELECT \"Video_ID\" FROM {schema}.{table};"
     cur.execute(video_ids_sql)
