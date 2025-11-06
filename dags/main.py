@@ -26,7 +26,7 @@ core_schema = 'core'
 with DAG(
     dag_id='produce_json',
     default_args=default_args,
-    description='A simple DAG to extract YouTube video statistics and store them in JSON files',
+    description='A simple DAG to extract YouTube video statistics and store them in JSON files yup',
     schedule='0 10 * * *', #Check crontab.guru
     catchup=False,
 ) as dag1:
