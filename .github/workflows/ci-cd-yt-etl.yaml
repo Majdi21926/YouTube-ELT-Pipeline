@@ -95,11 +95,4 @@ jobs:
               done
           - name: Tear down Docker Compose
             if: ${{ steps.changed-files-tests.outputs.any_changed == 'true' }}
-            run: docker compose down 
-
-
-
-
-
-        
-         
+            run: docker compose down
