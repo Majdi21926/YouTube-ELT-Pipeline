@@ -83,7 +83,7 @@ jobs:
                     docker-compose.yml
           - name: Set up Docker Compose
             if: ${{ steps.changed-files-tests.outputs.any_changed == 'true' }}
-            run: docker-compose up -d
+            run: docker compose up -d
           - name: Run Unit and Integration Tests
             if: ${{ steps.changed-files-tests.outputs.any_changed == 'true' }}
             run: docker exec -t airflow-worker bash -c "pytest tests/ -v"
